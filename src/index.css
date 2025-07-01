@@ -1,6 +1,12 @@
 :root {
     background: #202020;
-    color: #ffffff;
     font-family: 'JetBrains Mono', Courier, monospace;
 }
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 
