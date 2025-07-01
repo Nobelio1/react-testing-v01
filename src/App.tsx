@@ -1,53 +1,128 @@
-import './App.css'
+import './App.css';
+import { useForm, Controller, type SubmitHandler } from 'react-hook-form';
+import { Input } from './components/Input.tsx';
+import {
+  type ISelectOption,
+  Select,
+  type TypeDocument,
+} from './components/Select.tsx';
+import { Button } from './components/Button.tsx';
+
+export interface IFormInput {
+  name: string;
+  lastname: string;
+  birthday: string;
+  typeDoc: TypeDocument;
+  doc: number;
+  address: string;
+}
+
+const typeDocumentOptions: ISelectOption[] = [
+  { id: 'dni', value: 'dni', label: 'DNI' },
+  { id: 'passport', value: 'passport', label: 'Pasaporte' },
+  { id: 'ruc', value: 'ruc', label: 'RUC' },
+];
 
 function App() {
+  const { control, handleSubmit } = useForm<IFormInput>({});
+
+  const onSubmit: SubmitHandler<IFormInput> = data => {
+    console.log(data);
+  };
+
   return (
     <div className="container">
       <div className="container_form">
         <p className="container__title">Encuesta #1</p>
-        <form className="form">
-          <div className="form__input">
-            <label htmlFor="name">Nombres:</label>
-            <input type="text" id="name" name="name" placeholder="Escribe tu nombre"/>
-          </div>
+        <form className="form" onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            name="name"
+            control={control}
+            render={({ field }) => (
+              <Input
+                type="text"
+                id="name"
+                label="Nombres"
+                placeholder="Escribe tu nombre"
+                field={field}
+              />
+            )}
+          />
 
-          <div className="form__input">
-            <label htmlFor="lastname">Apellidos:</label>
-            <input type="text" id="lastname" name="lastname" placeholder="Escribe tus apellidos"/>
-          </div>
+          <Controller
+            name="lastname"
+            control={control}
+            render={({ field }) => (
+              <Input
+                type="text"
+                id="lastname"
+                label="Apellidos"
+                placeholder="Escribe tu Apellido"
+                field={field}
+              />
+            )}
+          />
 
-          <div className="form__input_other">
-            <div className="form__input">
-              <label htmlFor="date_b">Fecha de nacimiento:</label>
-              <input type="date" id="date_b" name="date_b"/>
-            </div>
+          <Controller
+            name="birthday"
+            control={control}
+            render={({ field }) => (
+              <Input
+                type="date"
+                id="birthday"
+                label="Fecha de nacimiento"
+                placeholder="Fecha de nacimiento"
+                field={field}
+              />
+            )}
+          />
 
-            <div className="form__input">
-              <label htmlFor="type_doc">Tipo documento:</label>
-              <select id="type_doc" name="type_doc">
-                <option value="dni">DNI</option>
-                <option value="passport">Pasaporte</option>
-                <option value="other">Otro</option>
-              </select>
-            </div>
+          <Controller
+            name="typeDoc"
+            control={control}
+            render={({ field }) => (
+              <Select
+                field={field}
+                id="typeDoc"
+                label="Tipo de Documento"
+                options={typeDocumentOptions}
+              />
+            )}
+          />
 
-            <div className="form__input">
-              <label htmlFor="doc">Documento de Identidad:</label>
-              <input type="number" id="doc" name="doc" placeholder="XXXXXX"/>
-            </div>
-          </div>
+          <Controller
+            name="doc"
+            control={control}
+            render={({ field }) => (
+              <Input
+                type="number"
+                id="doc"
+                label="Documento de Identidad"
+                placeholder="XXXXXX"
+                field={field}
+              />
+            )}
+          />
 
-          <div className="form__input">
-            <label htmlFor="address">Dirección:</label>
-            <input type="text" id="address" name="address" placeholder="Escribe tu dirección"/>
-          </div>
+          <Controller
+            name="address"
+            control={control}
+            render={({ field }) => (
+              <Input
+                type="text"
+                id="address"
+                label="Dirección"
+                placeholder="Escribe tu dirección"
+                field={field}
+              />
+            )}
+          />
 
-          <button type="submit" className="form__button">Enviar</button>
-
+          <Button label="Enviar" />
         </form>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
